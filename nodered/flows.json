@@ -1,0 +1,143 @@
+[
+    {
+        "id": "b3868d8d21904485",
+        "type": "tab",
+        "label": "Send email SuggestionBox",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "09f62725e29ebac2",
+        "type": "e-mail",
+        "z": "b3868d8d21904485",
+        "server": "smtp.gmail.com",
+        "port": "465",
+        "authtype": "BASIC",
+        "saslformat": true,
+        "token": "oauth2Response.access_token",
+        "secure": true,
+        "tls": true,
+        "name": "",
+        "dname": "send email ",
+        "x": 890,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "e65d3bb34a04f5e5",
+        "type": "http in",
+        "z": "b3868d8d21904485",
+        "name": "",
+        "url": "/sendReplyToSelf",
+        "method": "post",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 280,
+        "y": 120,
+        "wires": [
+            [
+                "e8cba18acf9ba54a",
+                "084117c61c4545f5"
+            ]
+        ]
+    },
+    {
+        "id": "cdd41250418ff2ee",
+        "type": "debug",
+        "z": "b3868d8d21904485",
+        "name": "debug 18",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 820,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "e8cba18acf9ba54a",
+        "type": "function",
+        "z": "b3868d8d21904485",
+        "name": "function 5",
+        "func": "var payloadHttp = msg.payload;\n\nmsg.to = payloadHttp.toEmail\nmsg.topic = \"Suggestion Box Message\"\nmsg.payload = \"<b>You sent this message to the suggestion box:</b><br><br><i>\" + payloadHttp.message\nmsg.payload += \"</i><br><br><br><b>Here some suggestions for youself to help:</b><br><br>\" + payloadHttp.reply\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 120,
+        "wires": [
+            [
+                "cdd41250418ff2ee",
+                "09f62725e29ebac2"
+            ]
+        ]
+    },
+    {
+        "id": "f4b6c6397feca738",
+        "type": "http in",
+        "z": "b3868d8d21904485",
+        "name": "",
+        "url": "/sendReplyToLeadership",
+        "method": "post",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 310,
+        "y": 280,
+        "wires": [
+            [
+                "92389b2b741c6e26",
+                "084117c61c4545f5"
+            ]
+        ]
+    },
+    {
+        "id": "92389b2b741c6e26",
+        "type": "function",
+        "z": "b3868d8d21904485",
+        "name": "function 6",
+        "func": "var payloadHttp = msg.payload;\n\nmsg.to = \"leadership@example.com\"\nmsg.topic = \"Suggestion Box Message\"\nmsg.payload = \"<b>Someone sent this message to the suggestion box:</b><br><br><i>\" + payloadHttp.message\nmsg.payload += \"</i><br><br><br><b>Here some suggestions for the leadership team to help:</b><br><br>\" + payloadHttp.reply\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 280,
+        "wires": [
+            [
+                "09f62725e29ebac2",
+                "cdd41250418ff2ee"
+            ]
+        ]
+    },
+    {
+        "id": "084117c61c4545f5",
+        "type": "http response",
+        "z": "b3868d8d21904485",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 520,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "c3edbd79248df247",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-node-email": "3.0.3"
+        }
+    }
+]
