@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suggestion Box</title>
+    
+    <!-- styles.css -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header>
+        <h1>Suggestion Box</h1>
+        <p>We value your input. Share your ideas with us!</p>
+    </header>
+
+    <div class="container">
+        <!-- Input Section -->
+        <section class="form-section">
+            <div class="form-card">
+                <div class="form-header">
+                    <h2>Submit a Suggestion</h2>
+                </div>
+                <form id="suggestionForm">
+                    <div class="form-group">
+                        <label for="category">Category</label>
+                        <select id="category" class="form-control" required>
+                            <option value="general">General</option>
+                            <option value="feature">Feature Request</option>
+                            <option value="bug">Bug Report</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" class="form-control" placeholder="Your name" required autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="text" id="email" class="form-control" placeholder="Your email" required autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" class="form-control" placeholder="Tell us more details..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">Submit Suggestion</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Display Section -->
+        <section class="list-section">
+            <div class="list-header">
+                <h2>Recent Suggestions</h2>
+                <span id="countDisplay" style="color: var(--text-muted); font-weight: 500;">0 Items</span>
+            </div>
+            
+            <div id="suggestionList" class="suggestion-grid">
+                <!-- Items will be injected here via JavaScript -->
+            </div>
+            
+            <div id="emptyState" class="empty-state">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 1rem;">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+                <h3>No suggestions yet</h3>
+                <p>Be the first to share an idea!</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <span>Suggestion added successfully!</span>
+    </div>
+
+    <!-- script.js -->
+    <script src="script.js"></script>
+</body>
+</html>
