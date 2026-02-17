@@ -1,0 +1,478 @@
+{
+  "name": "SuggestionBoxAI",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "suggestionbox",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        16,
+        16
+      ],
+      "id": "cbf25c05-22d1-4d10-bd4e-1a6c8f7bcda6",
+      "name": "Webhook",
+      "webhookId": "1a21226e-8a1c-42dd-b51b-fc2e8b3a9612"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "glm-4.7-flash:latest",
+          "mode": "list",
+          "cachedResultName": "glm-4.7-flash:latest"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "={{ $json.body.message }}"
+            }
+          ]
+        },
+        "options": {
+          "system": "You are a Suggestion Box assistant.\nYou are kind but pragmatic.\nThe box will be filled with sugestions by the team working on an ecommerce website for a main technology manufacturer.\nYou will be provided with messages from the suggestion box, and you need to write a reply for it. In the reply you should point out action that the user can take on themselves to tackle the suggestion.\nJust write the reply without including any additional comment",
+          "temperature": 0.8
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.ollama",
+      "typeVersion": 1,
+      "position": [
+        240,
+        16
+      ],
+      "id": "ed5cfe61-155f-4755-b1fd-7ef5dc5f6dc3",
+      "name": "Reply for self improvement",
+      "credentials": {
+        "ollamaApi": {
+          "id": "gXTYju8wRffEkyv3",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "glm-4.7-flash:latest",
+          "mode": "list",
+          "cachedResultName": "glm-4.7-flash:latest"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "={{ $json.body.message }}"
+            }
+          ]
+        },
+        "options": {
+          "system": "You are a Suggestion Box assistant.\nYou are kind but pragmatic.\nThe box will be filled with sugestions by the team working on an ecommerce website for a main technology manufacturer.\nYou will be provided with messages from the suggestion box, and you need to write a reply for it. In the reply you should point out actions and a plan for the leadrship team to address the suggestion.\nJust write the reply without including any additional comment",
+          "temperature": 0.8
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.ollama",
+      "typeVersion": 1,
+      "position": [
+        240,
+        208
+      ],
+      "id": "62accc27-6910-4ce5-af93-ded965c55170",
+      "name": "Reply for leadership team",
+      "credentials": {
+        "ollamaApi": {
+          "id": "gXTYju8wRffEkyv3",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "glm-4.7-flash:latest",
+          "mode": "list",
+          "cachedResultName": "glm-4.7-flash:latest"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "={{ $json.body.message }}"
+            }
+          ]
+        },
+        "options": {
+          "system": "You are a Suggestion Box assistant.\nYou are kind but pragmatic.\nThe box will be filled with sugestions by the team working on an ecommerce website for a main technology manufacturer.\nYou will be provided with messages from the suggestion box, and you need to write a reply for it. Just write the reply without including any additional comment",
+          "temperature": 0.8
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.ollama",
+      "typeVersion": 1,
+      "position": [
+        240,
+        -176
+      ],
+      "id": "83f52c43-30ac-46c4-b7d3-41f8400b573e",
+      "name": "Reply generic",
+      "credentials": {
+        "ollamaApi": {
+          "id": "gXTYju8wRffEkyv3",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "markdownToHtml",
+        "markdown": "={{ $('Reply for self improvement').item.json.content }}",
+        "destinationKey": "htmlContent",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.markdown",
+      "typeVersion": 1,
+      "position": [
+        1040,
+        16
+      ],
+      "id": "48f643f9-eb64-447b-93e9-88b8d03a7c48",
+      "name": "Convert markdown to html for self"
+    },
+    {
+      "parameters": {
+        "mode": "markdownToHtml",
+        "markdown": "={{ $('Reply for leadership team').item.json.content }}",
+        "destinationKey": "htmlContent",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.markdown",
+      "typeVersion": 1,
+      "position": [
+        1040,
+        208
+      ],
+      "id": "e53fff03-7df8-42d0-9c93-b562c5ac7997",
+      "name": "Convert markdown to html for leadership"
+    },
+    {
+      "parameters": {
+        "jsCode": "var returnObj = []\nreturnObj[0] = {}\nreturnObj[0].content = $input.first().json.content.replaceAll(\"'\", \"''\")\nreturn returnObj;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        592,
+        16
+      ],
+      "id": "70aa303a-30ba-419a-9c40-8e07636cefff",
+      "name": "Escape response 2"
+    },
+    {
+      "parameters": {
+        "jsCode": "var returnObj = []\nreturnObj[0] = {}\nreturnObj[0].content = $input.first().json.content.replaceAll(\"'\", \"''\")\nreturn returnObj;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        592,
+        -176
+      ],
+      "id": "19f8fb03-83e0-4531-87fe-bb63682cc751",
+      "name": "Escape response 1"
+    },
+    {
+      "parameters": {
+        "jsCode": "var returnObj = []\nreturnObj[0] = {}\nreturnObj[0].content = $input.first().json.content.replaceAll(\"'\", \"''\")\nreturn returnObj;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        592,
+        208
+      ],
+      "id": "8b77e6ea-d2af-445c-b14c-6c943e877d54",
+      "name": "Escape response 3"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE suggestions\nSET aiReply = '{{ $json.content }}'\nWHERE id='{{ $('Webhook').item.json.body.id }}';"
+      },
+      "type": "n8n-nodes-base.microsoftSql",
+      "typeVersion": 1.1,
+      "position": [
+        816,
+        -176
+      ],
+      "id": "64b71bff-bead-423d-bc42-2a6600a42a26",
+      "name": "Update reply in db",
+      "credentials": {
+        "microsoftSql": {
+          "id": "kHOFdMyI811k4Xln",
+          "name": "Microsoft SQL SuggestionBox"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE suggestions\nSET aiReplySelf = '{{ $json.content }}'\nWHERE id='{{ $('Webhook').item.json.body.id }}';"
+      },
+      "type": "n8n-nodes-base.microsoftSql",
+      "typeVersion": 1.1,
+      "position": [
+        816,
+        16
+      ],
+      "id": "387831d1-5d8d-4780-acf0-84b3383774ca",
+      "name": "Update reply for self in db",
+      "credentials": {
+        "microsoftSql": {
+          "id": "kHOFdMyI811k4Xln",
+          "name": "Microsoft SQL SuggestionBox"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE suggestions\nSET aiReplyLeadership = '{{ $json.content }}'\nWHERE id='{{ $('Webhook').item.json.body.id }}';"
+      },
+      "type": "n8n-nodes-base.microsoftSql",
+      "typeVersion": 1.1,
+      "position": [
+        816,
+        208
+      ],
+      "id": "18a44002-d726-4453-8800-67d71dc5d237",
+      "name": "Update reply for leadership in db",
+      "credentials": {
+        "microsoftSql": {
+          "id": "kHOFdMyI811k4Xln",
+          "name": "Microsoft SQL SuggestionBox"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://yournodered.example.com/sendReplyToSelf",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "message",
+              "value": "={{ $('Webhook').item.json.body.message }}"
+            },
+            {
+              "name": "toEmail",
+              "value": "={{ $('Webhook').item.json.body.email }}"
+            },
+            {
+              "name": "reply",
+              "value": "={{ $json.htmlContent }}"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          },
+          "timeout": 1000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1264,
+        16
+      ],
+      "id": "782e8393-92ea-4f38-b667-ce7f6c9e97b7",
+      "name": "Call API send email to self"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://yournodered.example.com/sendReplyToLeadership",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "message",
+              "value": "={{ $('Webhook').item.json.body.message }}"
+            },
+            {
+              "name": "reply",
+              "value": "={{ $json.htmlContent }}"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          },
+          "timeout": 1000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1264,
+        208
+      ],
+      "id": "36593521-2ec6-4d51-8d34-1da1a513e9b1",
+      "name": "Call API send email to leadership"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Reply generic",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Reply for self improvement",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Reply for leadership team",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reply generic": {
+      "main": [
+        [
+          {
+            "node": "Escape response 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reply for self improvement": {
+      "main": [
+        [
+          {
+            "node": "Escape response 2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reply for leadership team": {
+      "main": [
+        [
+          {
+            "node": "Escape response 3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert markdown to html for self": {
+      "main": [
+        [
+          {
+            "node": "Call API send email to self",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert markdown to html for leadership": {
+      "main": [
+        [
+          {
+            "node": "Call API send email to leadership",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Escape response 2": {
+      "main": [
+        [
+          {
+            "node": "Update reply for self in db",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Escape response 1": {
+      "main": [
+        [
+          {
+            "node": "Update reply in db",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Escape response 3": {
+      "main": [
+        [
+          {
+            "node": "Update reply for leadership in db",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update reply for self in db": {
+      "main": [
+        [
+          {
+            "node": "Convert markdown to html for self",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update reply for leadership in db": {
+      "main": [
+        [
+          {
+            "node": "Convert markdown to html for leadership",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "f221c944-ef78-4b2a-a6da-572c8f56d6c2",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "923ce2f14aad4726e15646350007925490270b29d0e61ba945dba892143baea9"
+  },
+  "id": "Fnc75gzIbFth3FvZH5nYV",
+  "tags": []
+}
