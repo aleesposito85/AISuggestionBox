@@ -12,3 +12,7 @@
 - one for a generic reply, that you can see on the website itself if refresh the page
 - one as self actions the user can take sent to the user email
 - one for the leadership as a plan of actions sent to the leadership team email
+
+
+<img width="1105" height="1193" alt="Screenshot 2026-02-16 at 10 29 45 AM" src="https://github.com/user-attachments/assets/641258a7-8ec2-4447-bc85-edf6e4a313fb" />
+<img width="1268" height="587" alt="Screenshot 2026-02-16 at 10 30 01 AM" src="https://github.com/user-attachments/assets/783d4491-d705-4951-8e44-af47fe24c31a" />
