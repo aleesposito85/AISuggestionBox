@@ -37,7 +37,7 @@ async function handleFormSubmit(e) {
     };
 
     try {
-        const response = await fetch('https://suggestionboxapi.aleespohome.com/api/suggestions', {
+        const response = await fetch('https://suggestionboxapi.example.com/api/suggestions', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -68,7 +68,7 @@ async function handleFormSubmit(e) {
 
 async function loadSuggestions() {
     try {
-        const response = await fetch('https://suggestionboxapi.aleespohome.com/api/suggestions');
+        const response = await fetch('https://suggestionboxapi.example.com/api/suggestions');
         
         if (response.ok) {
             suggestions = await response.json();
